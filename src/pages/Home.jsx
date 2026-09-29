@@ -43,14 +43,16 @@ export default function Home() {
     setApps((a) => [addApplication(data), ...a]);
   }
   function handleEdit(id, data) {
-    setApps((a) => a.map((x) => (x.id === id ? updateApplication(id, data) : x)));
+    const updated = updateApplication(id, data);
+    if (updated) setApps((a) => a.map((x) => (x.id === id ? updated : x)));
   }
   function handleDelete(id) {
     deleteApplication(id);
     setApps((a) => a.filter((x) => x.id !== id));
   }
   function handleStatusChange(id, status) {
-    setApps((a) => a.map((x) => (x.id === id ? updateApplication(id, { status }) : x)));
+    const updated = updateApplication(id, { status });
+    if (updated) setApps((a) => a.map((x) => (x.id === id ? updated : x)));
   }
 
   function navigate(section) {

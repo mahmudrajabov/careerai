@@ -37,7 +37,12 @@ export function loadApplications() {
   try {
     const raw = localStorage.getItem(APPS_KEY);
     if (!raw) return seedApplications();
-    return JSON.parse(raw);
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return seedApplications();
+    // self-heal: drop any malformed entries lacking an id
+    const clean = parsed.filter((a) => a && typeof a === "object" && a.id && a.status);
+    if (clean.length !== parsed.length) saveApplications(clean);
+    return clean;
   } catch {
     return [];
   }
@@ -100,7 +105,7 @@ function seedApplications() {
 
 export function addApplication(data) {
   const list = loadApplications();
-  const record = { id: uid, ...data };
+  const record = { id: uid(), ...data };
   list.unshift(record);
   saveApplications(list);
   return record;

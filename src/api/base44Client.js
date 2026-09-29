@@ -2,19 +2,25 @@
 // AuthContext consumes the same API surface, but everything resolves locally:
 // no network calls, no Base44 SDK, no backend services.
 
+import { getDemoUser, demoLogout } from '@/lib/demoAuth';
+
 export const base44 = {
   app: {
     getPublicSettings: async () => ({ id: 'demo', public_settings: {} }),
   },
   auth: {
-    // No demo session until the user logs in via /login or /register.
+    // Resolves with the local demo user when logged in, 401 otherwise.
     me: async () => {
-      const err = new Error('Not authenticated');
-      err.status = 401;
-      throw err;
+      const user = getDemoUser();
+      if (!user) {
+        const err = new Error('Not authenticated');
+        err.status = 401;
+        throw err;
+      }
+      return user;
     },
     logout: () => {
-      window.location.href = '/login';
+      demoLogout();
     },
     redirectToLogin: () => {
       window.location.href = '/login';

@@ -3,6 +3,60 @@
 
 const APPS_KEY = "careerai.applications";
 const ANALYSIS_KEY = "careerai.lastAnalysis";
+const CV_KEY = "careerai.sampleCv";
+
+// Realistic sample CV used by the simulated match analysis (stored in localStorage).
+const SAMPLE_CV = `ALEX MORGAN
+Senior Frontend Engineer
+San Francisco, CA · alex.morgan@example.com · linkedin.com/in/alex-morgan
+
+PROFESSIONAL SUMMARY
+Frontend engineer with 7+ years of experience building high-performance web
+applications with React and TypeScript. Led platform migrations, design-system
+rollouts and cross-functional delivery in Agile teams. Focused on
+accessibility, developer experience and measurable product impact.
+
+EXPERIENCE
+Senior Frontend Engineer — Northwind Cloud (2021 – Present)
+- Led the migration of a 200k-user analytics dashboard from JavaScript to
+  React 18 + TypeScript, cutting bundle size by 38% and error rates by 24%.
+- Built and shipped a company-wide design system (60+ components) adopted by
+  12 product teams.
+- Integrated REST and GraphQL APIs; introduced CI/CD checks that reduced
+  regressions by 30%.
+
+Frontend Engineer — Brightline Labs (2018 – 2021)
+- Delivered customer-facing features in React and Node.js for a B2B SaaS
+  platform serving 40k accounts.
+- Wrote end-to-end testing suites (Jest, Playwright) covering checkout and
+  onboarding flows.
+- Partnered with product and design in Agile sprints to launch a self-serve
+  onboarding flow that lifted activation by 18%.
+
+SKILLS
+JavaScript, TypeScript, React, Next.js, Node.js, HTML, CSS, Tailwind,
+REST API, GraphQL, SQL, Git, Testing, CI/CD, Agile, Project Management,
+Communication, Leadership
+
+EDUCATION
+B.S. Computer Science — University of California, Berkeley (2017)`;
+
+export function loadSampleCv() {
+  try {
+    let raw = localStorage.getItem(CV_KEY);
+    if (!raw) {
+      localStorage.setItem(CV_KEY, SAMPLE_CV);
+      raw = SAMPLE_CV;
+    }
+    return raw;
+  } catch {
+    return SAMPLE_CV;
+  }
+}
+
+export function saveSampleCv(text) {
+  localStorage.setItem(CV_KEY, text);
+}
 
 export const STATUSES = ["Saved", "Applied", "Interview", "Rejected"];
 
@@ -165,7 +219,8 @@ export function saveLastAnalysis(analysis) {
  */
 export function analyzeMatch(jdText, cvFile) {
   const jdSkills = extractSkills(jdText || "");
-  const cvSkills = DEFAULT_CV_SKILLS.slice();
+  let cvSkills = extractSkills(loadSampleCv());
+  if (cvSkills.length === 0) cvSkills = DEFAULT_CV_SKILLS.slice();
 
   let matched = jdSkills.filter((s) => cvSkills.includes(s));
   let missing = jdSkills.filter((s) => !cvSkills.includes(s));

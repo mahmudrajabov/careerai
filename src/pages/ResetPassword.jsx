@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Lock, Loader2, AlertTriangle } from "lucide-react";
 import AuthLayout from "@/components/AuthLayout";
+import { getDemoUser } from "@/lib/demoAuth";
 
 export default function ResetPassword() {
   const [searchParams] = useSearchParams();
@@ -16,7 +16,8 @@ export default function ResetPassword() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  // Demo mode — stores the new password with the local demo user (no backend).
+  const handleSubmit = (e) => {
     e.preventDefault();
     setError("");
     if (newPassword !== confirmPassword) {
@@ -24,14 +25,17 @@ export default function ResetPassword() {
       return;
     }
     setLoading(true);
-    try {
-      await base44.auth.resetPassword({ resetToken, newPassword });
-      window.location.href = "/login";
-    } catch (err) {
-      setError(err.message || "Failed to reset password");
-    } finally {
-      setLoading(false);
+    const user = getDemoUser();
+    if (user) {
+      try {
+        localStorage.setItem("careerai.demoUser", JSON.stringify({ ...user, password: newPassword }));
+      } catch {
+        // ignore storage errors
+      }
     }
+    setTimeout(() => {
+      window.location.href = "/login";
+    }, 400);
   };
 
   if (!resetToken) {

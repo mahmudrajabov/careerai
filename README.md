@@ -4,6 +4,10 @@ Use this repository to run and edit the app locally, then publish changes back t
 
 Any change pushed to the repo will also be reflected in the Base44 Builder.
 
+## Live Demo
+
+[Open CareerAI website](https://mahmud-careerai.netlify.app/)
+
 ## Prerequisites
 
 1. Clone the repository using the project's Git URL.

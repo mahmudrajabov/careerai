@@ -5,6 +5,7 @@ import Hero from "@/components/Hero";
 import AIAnalyzer from "@/components/AIAnalyzer";
 import MatchResults from "@/components/MatchResults";
 import Tracker from "@/components/Tracker";
+import Footer from "@/components/Footer";
 import { useIsMobile } from "@/hooks/use-mobile";
 import {
   loadApplications, addApplication, updateApplication, deleteApplication,
@@ -103,6 +104,7 @@ export default function Home() {
         </div>
       </main>
 
+      <Footer />
       <MobileNav activeSection={activeSection} onChange={setActiveSection} />
     </div>
   );

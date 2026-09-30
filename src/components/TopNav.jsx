@@ -1,19 +1,13 @@
 import React from "react";
-import { Sparkles, ScanSearch, Briefcase } from "lucide-react";
+import { ScanSearch, Briefcase } from "lucide-react";
+import BrandLogo from "@/components/BrandLogo";
 import { cn } from "@/lib/utils";
 
 export default function TopNav({ stats, onNavigate, activeSection }) {
   return (
     <header className="sticky top-0 z-40 h-16 glass border-b border-border">
       <div className="mx-auto max-w-7xl h-full px-4 sm:px-6 flex items-center justify-between gap-4">
-        <button onClick={() => onNavigate("analyzer")} className="flex items-center gap-2.5 shrink-0">
-          <span className="grid place-items-center w-9 h-9 rounded-xl bg-gradient-to-br from-primary to-vivid shadow-lg shadow-primary/30">
-            <Sparkles className="w-5 h-5 text-white" />
-          </span>
-          <span className="font-display font-700 text-lg tracking-tight">
-            Career<span className="text-vivid">AI</span>
-          </span>
-        </button>
+        <BrandLogo nameClassName="text-vivid" />
 
         <nav className="hidden md:flex items-center gap-1">
           <NavBtn label="AI Analyzer" icon={ScanSearch} active={activeSection === "analyzer"} onClick={() => onNavigate("analyzer")} />

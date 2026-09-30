@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">M cat emblem</title>
+  <desc id="desc">A geometric letter M combined with two cat ears</desc>
+  <defs>
+    <linearGradient id="brand" x1="72" y1="64" x2="440" y2="448" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#16A34A"/>
+      <stop offset="1" stop-color="#0F766E"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#brand)" d="M92 420V181L151 76l53 91 52-48 52 48 53-91 59 105v239h-96V276l-68 76-68-76v144H92Z"/>
+  <path fill="#fff" fill-opacity=".18" d="m151 119 29 50-29 25-30-25 30-50Zm210 0 30 50-30 25-29-25 29-50Z"/>
+</svg>
